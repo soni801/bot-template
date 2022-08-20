@@ -1,8 +1,4 @@
-/**
- * @author s1lv3r
- */
 import {
-    ApplicationCommand,
     ChatInputCommandInteraction,
     SlashCommandBuilder,
     SlashCommandSubcommandGroupBuilder,
@@ -11,44 +7,57 @@ import {
 import Client from '../util/Client';
 import Logger from '../util/Logger';
 
+/**
+ * A slash command
+ *
+ * @author theS1LV3R
+ * @since 1.0.0
+ * @see {@link ChatInputCommandInteraction}
+ */
 export abstract class Command
 {
     /**
      * The client that this interaction is attached to
      *
      * @type {Client}
-     * @memberof Interaction
      */
     client: Client;
 
     /**
-     * The logger for this interaction
-     *
+     * The logger for this command interaction
+     * 
      * @type {Logger}
-     * @memberof Interaction
      */
     logger: Logger;
 
     /**
-     * Name of the interaction
+     * The name of the command interaction
      *
      * @type {string}
-     * @memberof Interaction
      */
     name: string;
 
+    /**
+     * Creates a new Command
+     *
+     * @param {Client} client The Client the command is attached to
+     *
+     * @author theS1LV3R
+     * @since 1.0.0
+     * @see {@link Client}
+     */
     constructor(client: Client);
 
     /**
-     * The slash command builder for this interaction.
+     * The slash command builder for this command interaction.
      *
-     * @abstract
-     * @return {(Promise<
-     *     | SlashCommandBuilder
-     *     | SlashCommandSubcommandsOnlyBuilder
-     *     | SlashCommandSubcommandGroupBuilder
-     *   >)}
-     * @memberof Interaction
+     * @returns {Promise<SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandSubcommandGroupBuilder>} The slash command builder for this command interaction.
+     *
+     * @author theS1LV3R
+     * @since 1.0.0
+     * @see {@link SlashCommandBuilder}
+     * @see {@link SlashCommandSubcommandsOnlyBuilder}
+     * @see {@link SlashCommandSubcommandGroupBuilder}
      */
     abstract slashCommand(): Promise<
         | SlashCommandBuilder
@@ -57,12 +66,14 @@ export abstract class Command
         >;
 
     /**
-     * The entry point for this interaction.
+     * The entry point for this command interaction.
      *
-     * @abstract
-     * @param {ApplicationCommand} i The interaction object.
-     * @return {Promise<void>} Is an async function.
-     * @memberof Interaction
+     * @param {ChatInputCommandInteraction<"cached">} i The interaction object.
+     * @returns {Promise<any>} The entry point for this interaction
+     * 
+     * @author theS1LV3R
+     * @since 1.0.0
+     * @see {@link ChatInputCommandInteraction}
      */
     abstract execute(i: ChatInputCommandInteraction<'cached'>): Promise<any>;
 }

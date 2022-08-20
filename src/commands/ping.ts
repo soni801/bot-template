@@ -3,6 +3,13 @@ import type { Command } from '../types/Command';
 import type Client from '../util/Client';
 import Logger from '../util/Logger';
 
+/**
+ * The ping command
+ *
+ * @author Soni
+ * @since 1.0.0
+ * @see {@link Command}
+ */
 export default class Ping implements Command
 {
     name = 'ping';
@@ -10,11 +17,30 @@ export default class Ping implements Command
     client: Client;
     logger = new Logger(Ping.name);
 
+    /**
+     * Creates a new ping command
+     *
+     * @param {Client} client The Client the command is attached to
+     *
+     * @author Soni
+     * @since 1.0.0
+     * @see {@link Client}
+     */
     constructor(client: Client)
     {
-        this.client = client
+        this.client = client;
     }
 
+    /**
+     * Executes the command
+     *
+     * @param {ChatInputCommandInteraction<"cached">} i The command interaction
+     * @returns {Promise<Message<boolean>>} The reply sent by the bot
+     *
+     * @author Soni
+     * @since 1.0.0
+     * @see {@link ChatInputCommandInteraction}
+     */
     async execute(i: ChatInputCommandInteraction<'cached'>)
     {
         // Send a message
@@ -22,10 +48,14 @@ export default class Ping implements Command
 
         // Fetch the message, and check the latency
         const message = await i.fetchReply();
-
-        await i.editReply(`:ping_pong: Pong!Soni Bot latency (RTT): ${message.createdTimestamp - i.createdTimestamp}msAPI latency: ${Math.round(this.client.ws.ping)}ms`);
+        return await i.editReply(`:ping_pong: Pong!Soni Bot latency (RTT): ${message.createdTimestamp - i.createdTimestamp}msAPI latency: ${Math.round(this.client.ws.ping)}ms`);
     }
 
+    /**
+     * The slash command builder for this command interaction.
+     *
+     * @returns {Promise<SlashCommandBuilder>} The slash command builder for this command interaction.
+     */
     async slashCommand()
     {
         return new SlashCommandBuilder()

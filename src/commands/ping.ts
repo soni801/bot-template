@@ -13,7 +13,7 @@ import Logger from '../util/Logger';
 export default class Ping implements Command
 {
     name = 'ping';
-    description = 'Ping pong bitch'
+    description = 'Tests the ping of the bot'
     client: Client;
     logger = new Logger(Ping.name);
 
@@ -44,11 +44,20 @@ export default class Ping implements Command
     async execute(i: ChatInputCommandInteraction<'cached'>)
     {
         // Send a message
-        await i.editReply(":ping_pong:Testing ping");
+        await i.editReply({ embeds: [
+            this.client.defaultEmbed()
+                .setTitle(':ping_pong: Testing ping')
+                .setDescription('Waiting...')
+        ] });
 
         // Fetch the message, and check the latency
         const message = await i.fetchReply();
-        return await i.editReply(`:ping_pong: Pong!Soni Bot latency (RTT): ${message.createdTimestamp - i.createdTimestamp}msAPI latency: ${Math.round(this.client.ws.ping)}ms`);
+        return await i.editReply({ embeds: [
+                this.client.defaultEmbed()
+                    .setTitle(':ping_pong: Pong!')
+                    .setDescription(`Bot latency (RTT): ${message.createdTimestamp - i.createdTimestamp}ms
+                    API latency: ${Math.round(this.client.ws.ping)}ms`)
+        ] });
     }
 
     /**

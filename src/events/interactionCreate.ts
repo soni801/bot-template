@@ -30,9 +30,9 @@ const interactionCreate: event<'interactionCreate'> = async (client: Client<true
     // Execute the command
     command.execute(i).catch(e =>
     {
-        client.logger.error(e);
-        console.log(e)
-        i.editReply(CONSTANTS.ERRORS.COMMAND_RUN_ERROR)
+        client.logger.error(`An error occurred while executing command '${i.commandName}': ${e.message}`);
+        console.error(e);
+        i.editReply(CONSTANTS.ERRORS.COMMAND_RUN_ERROR);
     });
 
     return i;
